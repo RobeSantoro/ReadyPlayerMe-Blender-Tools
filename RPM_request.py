@@ -2,23 +2,31 @@ import bpy
 import requests
 
 
-def rename_armature():
-    # Get the armature
-    armature = bpy.data.objects["Armature"]
+def rename_armature(context, url_params_list):
 
-    # Get the quality
-    quality = bpy.context.scene.RPM.quality
+    if len(url_params_list) > 0:
 
-    if quality != "not_set":
-        # Rename the armature
-        armature.name += f"_{quality}"
+        print()
+        print(url_params_list)
 
-    # Get the meshLod
-    meshLod = bpy.context.scene.RPM.meshLod
+        postfix = []
 
-    if meshLod != 0:
-        # Rename the armature
-        armature.name += f"_meshLod_{meshLod}"
+        # ?quality=low (meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none)
+        if 'quality=low' in url_params_list:
+            postfix.append('Low')
+        elif 'quality=medium' in url_params_list:
+            postfix.append('Med')
+        elif 'quality=high' in url_params_list:
+            postfix.append('Hi')
+
+        if 'meshLod=0' in url_params_list:
+            postfix.append('LOD0')
+        elif 'meshLod=1' in url_params_list:
+            postfix.append('LOD1')
+        elif 'meshLod=2' in url_params_list:
+            postfix.append('LOD2')
+
+        context.object.name = context.scene.RPM.avatar_name + '_' + '_'.join(postfix)
 
 
 class RPM_OT_Request(bpy.types.Operator):
@@ -34,40 +42,47 @@ class RPM_OT_Request(bpy.types.Operator):
 
     def execute(self, context):
 
-        url_parameters_count = 0
-
         avatar_id = context.scene.RPM.avatar_id
+        url_id = f"https://api.readyplayer.me/v1/avatars/{avatar_id}.glb"
 
-        if avatar_id == "":
-            self.report({"ERROR"}, "No avatar ID provided")
-            return {"CANCELLED"}
-
-        url_to_request = f"https://api.readyplayer.me/v1/avatars/{avatar_id}.glb"
-
-        meshLod = context.scene.RPM.meshLod
+        url_params_list = []
 
         quality = context.scene.RPM.quality
         # ?quality=low (meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none)
         # ?quality=medium (meshLod=1, textureSizeLimit=512, textureAtlas=512, morphTargets=none)
         # ?quality=high (meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)
 
+        meshLod = context.scene.RPM.meshLod
+        # ?meshLod=0 (highest quality) (default)
+        # ?meshLod=1 (medium quality)
+        # ?meshLod=2 (lowest quality)
+
+        # https://api.readyplayer.me/v1/avatars/63ac69548d4fc7b44d50de62.glb?quality=low&meshLod=0
+        # https://api.readyplayer.me/v1/avatars/6185a4acfb622cf1cdc49348.glb?quality=low&meshLod=0
+
         if quality != "not_set":
-            url_to_request += f"?quality={quality}"
-            url_parameters_count += 1
+            url_params_list.append(f"quality={quality}")
 
-        if meshLod != 0:
-            if url_parameters_count != 0:
-                url_to_request += "&"
-            url_to_request += f"?meshLod={meshLod}"
+        if meshLod != 0 or len(url_params_list) != 0:
+            url_params_list.append(f"meshLod={meshLod}")
 
-        response = requests.get(url_to_request)
+        url_params_string = "&".join(url_params_list)
 
+        url = url_id + "?" + url_params_string
+
+        print('-------------------------------------------------------------')
         print()
-        print(f'Making request to Ready Player Me API for avatar: {avatar_id}\n')
-        print(f'url_to_request: {url_to_request}')
+        print(f'Making request to Ready Player Me API')
+        print()
+        print(url_params_string if len(url_params_string) != 0 else "No params")
+        print()
+        print(f'{url}')
+        print()
         print(f'quality: {quality}')
         print(f'meshLod: {meshLod}')
         print()
+
+        response = requests.get(url)
 
         if response.status_code == 200:
             self.report({"INFO"}, "Avatar downloaded successfully")
@@ -80,7 +95,7 @@ class RPM_OT_Request(bpy.types.Operator):
             bpy.ops.import_scene.gltf(filepath="avatar.glb")
 
             # Rename the armature by adding the params if any
-            rename_armature()
+            rename_armature(context, url_params_list)
 
         elif response.status_code == 404:
             self.report({"ERROR"}, "The requested avatar is not available")

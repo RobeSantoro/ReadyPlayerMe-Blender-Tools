@@ -2,6 +2,11 @@ import bpy
 
 
 class RPM_Globals(bpy.types.PropertyGroup):
+    avatar_name: bpy.props.StringProperty(
+        name="Avatar Name",
+        description="The name of the avatar you want to use",
+        default="Robe")
+
     avatar_id: bpy.props.StringProperty(
         name="Avatar ID",
         description="The ID of the avatar you want to use",
