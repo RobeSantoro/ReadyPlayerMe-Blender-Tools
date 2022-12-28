@@ -58,6 +58,9 @@ class RPM_OT_Request(bpy.types.Operator):
             # Rename the armature by adding the quality to the name
             rename_armature()
 
+        elif response.status_code == 404:
+            self.report({"ERROR"}, "The requested avatar is not available")
+
         else:
             self.report({"ERROR"}, "Avatar could not be downloaded")
 
