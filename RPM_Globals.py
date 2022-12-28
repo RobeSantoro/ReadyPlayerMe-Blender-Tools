@@ -24,3 +24,16 @@ high:    meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)
         ],
         default="not_set"
     )
+
+    meshLod: bpy.props.IntProperty(
+        name="Mesh LOD",
+        description=""" \
+The level of detail of the mesh \n\n \
+0 - No triangle count reduction is applied (default). \n\n \
+1 - Retain 50% of the original triangle count. \n\n \
+2 - Retain 25% of the original triangle count. \n\n \
+""",
+        default=0,
+        min=0,
+        max=2
+    )

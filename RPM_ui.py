@@ -22,6 +22,7 @@ class RPM_PT_main(bpy.types.Panel):
         col.prop(context.scene.RPM, "avatar_id")
         col.separator()
         col.prop(context.scene.RPM, "quality")
+        col.prop(context.scene.RPM, "meshLod")
 
         layout.separator()
         layout.operator("rpm.make_request", text="Download Avatar", icon="IMPORT")
