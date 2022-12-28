@@ -12,8 +12,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import bpy
-from . import auto_load
-from . RPM_ui import RPM_Globals
+
+from . RPM_Globals import RPM_Globals
+from . RPM_Globals import RPM_MorphTarget
+
+from . RPM_request import RPM_OT_Request
+from . RPM_ui import RPM_PT_main
 
 bl_info = {
     "name": "Ready Player Me Tools",
@@ -26,15 +30,21 @@ bl_info = {
     "category": "Ready Player Me"
 }
 
+classes = (
+    RPM_Globals,
 
-auto_load.init()
+    RPM_OT_Request,
+    RPM_PT_main
+)
 
 
 def register():
-    auto_load.register()
+    for cls in classes:
+        bpy.utils.register_class(cls)
     bpy.types.Scene.RPM = bpy.props.PointerProperty(type=RPM_Globals)
 
 
 def unregister():
+    for cls in reversed(classes):
+        bpy.utils.unregister_class(cls)
     del bpy.types.Scene.RPM
-    auto_load.unregister()
