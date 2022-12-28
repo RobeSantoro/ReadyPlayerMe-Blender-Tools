@@ -1,0 +1,18 @@
+# the TEMP avatar file
+avatar.glb
+avatar.blend1
+
+# python temp paths
+__pycache__/
+*.py[cod]
+
+# editors
+*~
+*.swp
+*.swo
+*#
+
+# ms-windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
