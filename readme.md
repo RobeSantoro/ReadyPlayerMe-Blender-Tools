@@ -23,9 +23,9 @@ Set the options for the avatar and click the Download button.
 - [x] Add `?quality=`
 - [x] Add `?meshLod=`
 - [x] Add `?textureSizeLimit=`
-- [ ] Add `?textureAtlas=`
-- [ ] Add `?textureChannels=`
+- [x] Add `?textureAtlas=`
 - [ ] Add `?morphTargets=`
+- [ ] Add `?textureChannels=`
 - [ ] Add `?pose=`
 - [ ] Add `?useDracoMeshCompression=`
 

@@ -1,11 +1,36 @@
 import bpy
 
 
+class RPM_MorphTarget(bpy.types.Collection):
+    """Collection of Morph Targets"""
+    name: bpy.props.StringProperty(name="Morph Target Name")
+    value: bpy.props.BoolProperty(name="Morph Target Value")
+
+
 class RPM_Globals(bpy.types.PropertyGroup):
     avatar_name: bpy.props.StringProperty(
         name="Avatar Name",
-        description="The name of the avatar you want to use",
+        description="The name of the avatar for the object name",
         default="Robe")
+
+    avatar_id_type: bpy.props.EnumProperty(
+        name="Avatar ID Type",
+        description="""\
+The type of the avatar ID you want to use: \n\n \
+shortcode:  The avatar shortcode (default) \n\n \
+url:        The avatar ID in the URL \n\n \
+""",
+        items=[
+            ("shortcode", "Shortcode", "The avatar shortcode"),
+            ("url", "URL", "The avatar ID in the URL")
+        ],
+        default="url"
+    )
+
+    avatar_shortcode: bpy.props.StringProperty(
+        name="Avatar Shortcode",
+        description="The shortcode of the avatar you want to use",
+        default="QKCJNP")
 
     avatar_id: bpy.props.StringProperty(
         name="Avatar ID",
@@ -16,10 +41,13 @@ class RPM_Globals(bpy.types.PropertyGroup):
         name="Quality",
         description="""\
 The quality of the avatar you want to use: \n\n \
-not_set: The avatar will be downloaded without any optimization. (default)  \n\n \
+not_set: The avatar will be downloaded without any optimization preset. (default)  \n\n \
 low:     meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none \n\n \
 medium:  meshLod=1, textureSizeLimit=512, textureAtlas=512, morphTargets=none) \n\n \
-high:    meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)\n\n \
+high:    meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)\n\n\
+All other values overwrite quality.
+So e.g.
+You can use quality=low and overwrite the LOD with 0 to get the high-res avatar. See Examples.\n\n\
 """,
         items=[
             ("not_set", "-", "Not set"),
@@ -27,7 +55,7 @@ high:    meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)
             ("medium", "Medium", "Medium quality"),
             ("high", "High", "High quality")
         ],
-        default="not_set"
+        default="not_set",
     )
 
     meshLod: bpy.props.IntProperty(
@@ -52,9 +80,47 @@ The maximum size of the textures \n\n \
 1024 - 1024x1024 (default) \n\n \
 """,
         items=[
-            ("256", "256", "256x256"),
-            ("512", "512", "512x512"),
-            ("1024", "1024", "1024x1024")
+            ("256", "256", "Limit textures to 256x256"),
+            ("512", "512", "Limit textures to 512x512"),
+            ("1024", "1024", "Limit textures to 1024x1024")
         ],
         default="1024"
+    )
+
+    textureAtlas: bpy.props.EnumProperty(
+        name="Texture Atlas",
+        description=""" \
+The size of the texture atlas \n\n \
+none - Do not create a texture atlas (default) \n\n \
+256 - Create a texture atlas of 256x256px \n\n \
+512 - Create a texture atlas of 512x512px \n\n \
+1024 - Create a texture atlas of 1024x1024px \n\n \
+""",
+        items=[
+            ("none", "None", "Do not create a texture atlas"),
+            ("256", "256", "Create a texture atlas of 256x256px"),
+            ("512", "512", "Create a texture atlas of 512x512px"),
+            ("1024", "1024", "Create a texture atlas of 1024x1024px"),
+        ],
+        default="none"
+    )
+
+    morphTargets: bpy.props.EnumProperty(
+        name="Morph Targets",
+        description=""" \
+The morph targets to include: \n\n \
+none - Do not include any morph targets \n\n \
+default - Include all morph targets (default) \n\n \
+ARKit - Blend shapes compatible with Apple ARKit (52) \n\n \
+Oculus Visemes - Visemes compatible with Oculus LipSync SDK (15) \n\n \
+Custom - Include custom morph targets from RPM_MorphTarget Collection\n\n \
+""",
+        items=[
+            ("none", "None", "Do not include any morph targets"),
+            ("default", "Default", "Include all morph targets"),
+            ("ARKit", "ARKit", "Blend shapes compatible with Apple ARKit (52)"),
+            ("Oculus Visemes", "Oculus Visemes", "Visemes compatible with Oculus LipSync SDK (15)"),
+            ("Custom", "Custom", "Include custom morph targets from from RPM_MorphTarget Collection")
+        ],
+        default="default"
     )

@@ -28,11 +28,18 @@ def rename_armature(context, url_params_list):
             postfix.append('LOD2')
 
         if 'textureSizeLimit=256' in url_params_list:
-            postfix.append('256')
+            postfix.append('limit256')
         elif 'textureSizeLimit=512' in url_params_list:
-            postfix.append('512')
+            postfix.append('limit512')
         elif 'textureSizeLimit=1024' in url_params_list:
-            postfix.append('1024')
+            postfix.append('limit1024')
+
+        if 'textureAtlas=256' in url_params_list:
+            postfix.append('atlas256')
+        elif 'textureAtlas=512' in url_params_list:
+            postfix.append('atlas512')
+        elif 'textureAtlas=1024' in url_params_list:
+            postfix.append('atlas1024')
 
         context.object.name = context.scene.RPM.avatar_name + '_' + '_'.join(postfix)
 
@@ -50,7 +57,11 @@ class RPM_OT_Request(bpy.types.Operator):
 
     def execute(self, context):
 
-        avatar_id = context.scene.RPM.avatar_id
+        if context.scene.RPM.avatar_id_type == 'shortcode':
+            avatar_id = context.scene.RPM.avatar_shortcode
+        else:
+            avatar_id = context.scene.RPM.avatar_id
+
         url_id = f"https://api.readyplayer.me/v1/avatars/{avatar_id}.glb"
 
         url_params_list = []
@@ -65,24 +76,28 @@ class RPM_OT_Request(bpy.types.Operator):
         # ?meshLod=1 (medium quality)
         # ?meshLod=2 (lowest quality)
 
-        # https://api.readyplayer.me/v1/avatars/63ac69548d4fc7b44d50de62.glb?quality=low&meshLod=0
-        # https://api.readyplayer.me/v1/avatars/6185a4acfb622cf1cdc49348.glb?quality=low&meshLod=0
-        
-        # https://api.readyplayer.me/v1/avatars/6185a4acfb622cf1cdc49348.glb?textureSizeLimit=512
-
         textureSizeLimit = context.scene.RPM.textureSizeLimit
         # ?textureSizeLimit=256
         # ?textureSizeLimit=512
         # ?textureSizeLimit=1024 (default)
 
+        textureAtlas = context.scene.RPM.textureAtlas
+        # ?textureAtlas=none (default)
+        # ?textureAtlas=256
+        # ?textureAtlas=512
+        # ?textureAtlas=1024
+
         if quality != "not_set":
             url_params_list.append(f"quality={quality}")
 
-        if meshLod != 0 or len(url_params_list) != 0:
+        if meshLod != 0 or len(url_params_list) > 0:
             url_params_list.append(f"meshLod={meshLod}")
 
-        if textureSizeLimit != 1024 or (len(url_params_list) > 0 and quality != "high"):
+        if textureSizeLimit != 1024 or len(url_params_list) > 0:
             url_params_list.append(f"textureSizeLimit={textureSizeLimit}")
+
+        if textureAtlas != "none" or len(url_params_list) > 0:
+            url_params_list.append(f"textureAtlas={textureAtlas}")
 
         url_params_string = "&".join(url_params_list)
 
@@ -98,6 +113,8 @@ class RPM_OT_Request(bpy.types.Operator):
         print()
         print(f'quality: {quality}')
         print(f'meshLod: {meshLod}')
+        print(f'textureSizeLimit: {textureSizeLimit}')
+        print(f'textureAtlas: {textureAtlas}')
         print()
 
         response = requests.get(url)

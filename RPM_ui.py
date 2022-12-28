@@ -21,12 +21,18 @@ class RPM_PT_main(bpy.types.Panel):
 
         col.separator()
 
+        col0 = layout.column(align=True)
+        col0.prop(context.scene.RPM, "avatar_id_type", text="ID type")
+
         col1 = layout.column(align=True)
         col1.use_property_decorate = False
         col1.use_property_split = False
         col1.scale_y = 1.2
 
-        col1.prop(context.scene.RPM, "avatar_id")
+        if context.scene.RPM.avatar_id_type == "url":
+            col1.prop(context.scene.RPM, "avatar_id", text="ID")
+        elif context.scene.RPM.avatar_id_type == "shortcode":
+            col1.prop(context.scene.RPM, "avatar_shortcode", text="CODE")
 
         col2 = layout.column(align=True)
         col2.use_property_split = False
@@ -38,10 +44,12 @@ class RPM_PT_main(bpy.types.Panel):
 
         box.use_property_split = True
         box.use_property_decorate = False
-        box.scale_y = 1.2
+        box.scale_y = 1
 
-        box.prop(context.scene.RPM, "meshLod")
-        box.prop(context.scene.RPM, "textureSizeLimit", text="Texture Limit")
+        box.prop(context.scene.RPM, "meshLod", text="LOD")
+        box.prop(context.scene.RPM, "textureSizeLimit", text="Tex Limit")
+        box.prop(context.scene.RPM, "textureAtlas", text="Atlas")
+        box.prop(context.scene.RPM, "morphTargets", text="Morphs")
 
         col3 = layout.column(align=True)
         col3.scale_y = 1.3

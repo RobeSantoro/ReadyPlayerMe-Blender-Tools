@@ -16,7 +16,7 @@ from . import auto_load
 from . RPM_ui import RPM_Globals
 
 bl_info = {
-    "name": "Ready Player Me",
+    "name": "Ready Player Me Tools",
     "author": "Robe Santoro",
     "description": "",
     "blender": (3, 3, 0),
