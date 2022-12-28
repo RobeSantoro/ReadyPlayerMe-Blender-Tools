@@ -9,8 +9,9 @@ def rename_armature():
     # Get the quality
     quality = bpy.context.scene.RPM.quality
 
-    # Rename the armature
-    armature.name += f"_{quality}"
+    if quality != "not_set":
+        # Rename the armature
+        armature.name += f"_{quality}"
 
 
 class RPM_OT_Request(bpy.types.Operator):

@@ -10,7 +10,11 @@ class RPM_Globals(bpy.types.PropertyGroup):
 
     quality: bpy.props.EnumProperty(
         name="Quality",
-        description="The quality of the avatar you want to use",
+        description="""The quality of the avatar you want to use: \n\n \
+not_set: The avatar will be downloaded without any optimization.  \n\n \
+low:     meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none \n\n \
+medium:  meshLod=1, textureSizeLimit=512, textureAtlas=512, morphTargets=none) \n\n \
+high:    meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)\n\n""",
         items=[
             ("not_set", "-", "Not set"),
             ("low", "Low", "Low quality"),
