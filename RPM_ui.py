@@ -13,24 +13,41 @@ class RPM_PT_main(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
 
-        layout.label(text="Get your avatar ID:")
-        layout.operator("wm.url_open", text="Ready Player Me Website", icon="WORLD").url = "https://readyplayer.me"
-
-        layout.separator()
-
         col = layout.column(align=True)
-        col.use_property_decorate = False
-        col.use_property_split = True
-        col.prop(context.scene.RPM, "avatar_id")
+        col.scale_y = 1.2
+        col.alignment = "EXPAND"
+        col.label(text="Get your avatar:")
+        col.operator("wm.url_open", text="https://readyplayer.me", icon="WORLD").url = "https://readyplayer.me"
 
         col.separator()
-        col.separator()
 
-        col.prop(context.scene.RPM, "quality")
-        col.prop(context.scene.RPM, "meshLod")
+        col1 = layout.column(align=True)
+        col1.use_property_decorate = False
+        col1.use_property_split = False
+        col1.scale_y = 1.2
 
-        layout.separator()
-        layout.separator()
+        col1.prop(context.scene.RPM, "avatar_id")
 
-        layout.prop(context.scene.RPM, "avatar_name")
-        layout.operator("rpm.make_request", text="Download Avatar", icon="IMPORT")
+        col2 = layout.column(align=True)
+        col2.use_property_split = False
+
+        col2.prop(context.scene.RPM, "quality", text="Quality")
+        col2.scale_y = 1.3
+
+        box = layout.box()
+
+        box.use_property_split = True
+        box.use_property_decorate = False
+        box.scale_y = 1.2
+
+        box.prop(context.scene.RPM, "meshLod")
+        box.prop(context.scene.RPM, "textureSizeLimit", text="Texture Limit")
+
+        col3 = layout.column(align=True)
+        col3.scale_y = 1.3
+
+        col3.separator()
+        col3.separator()
+
+        col3.prop(context.scene.RPM, "avatar_name")
+        col3.operator("rpm.make_request", text="Download Avatar", icon="IMPORT")

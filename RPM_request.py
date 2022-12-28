@@ -8,6 +8,7 @@ def rename_armature(context, url_params_list):
 
         print()
         print(url_params_list)
+        print()
 
         postfix = []
 
@@ -25,6 +26,13 @@ def rename_armature(context, url_params_list):
             postfix.append('LOD1')
         elif 'meshLod=2' in url_params_list:
             postfix.append('LOD2')
+
+        if 'textureSizeLimit=256' in url_params_list:
+            postfix.append('256')
+        elif 'textureSizeLimit=512' in url_params_list:
+            postfix.append('512')
+        elif 'textureSizeLimit=1024' in url_params_list:
+            postfix.append('1024')
 
         context.object.name = context.scene.RPM.avatar_name + '_' + '_'.join(postfix)
 
@@ -59,12 +67,22 @@ class RPM_OT_Request(bpy.types.Operator):
 
         # https://api.readyplayer.me/v1/avatars/63ac69548d4fc7b44d50de62.glb?quality=low&meshLod=0
         # https://api.readyplayer.me/v1/avatars/6185a4acfb622cf1cdc49348.glb?quality=low&meshLod=0
+        
+        # https://api.readyplayer.me/v1/avatars/6185a4acfb622cf1cdc49348.glb?textureSizeLimit=512
+
+        textureSizeLimit = context.scene.RPM.textureSizeLimit
+        # ?textureSizeLimit=256
+        # ?textureSizeLimit=512
+        # ?textureSizeLimit=1024 (default)
 
         if quality != "not_set":
             url_params_list.append(f"quality={quality}")
 
         if meshLod != 0 or len(url_params_list) != 0:
             url_params_list.append(f"meshLod={meshLod}")
+
+        if textureSizeLimit != 1024 or (len(url_params_list) > 0 and quality != "high"):
+            url_params_list.append(f"textureSizeLimit={textureSizeLimit}")
 
         url_params_string = "&".join(url_params_list)
 

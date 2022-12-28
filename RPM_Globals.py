@@ -16,7 +16,7 @@ class RPM_Globals(bpy.types.PropertyGroup):
         name="Quality",
         description="""\
 The quality of the avatar you want to use: \n\n \
-not_set: The avatar will be downloaded without any optimization.  \n\n \
+not_set: The avatar will be downloaded without any optimization. (default)  \n\n \
 low:     meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none \n\n \
 medium:  meshLod=1, textureSizeLimit=512, textureAtlas=512, morphTargets=none) \n\n \
 high:    meshLod=0, textureSizeLimit=1024, textureAtlas=1024, morphTargets=none)\n\n \
@@ -41,4 +41,20 @@ The level of detail of the mesh \n\n \
         default=0,
         min=0,
         max=2
+    )
+
+    textureSizeLimit: bpy.props.EnumProperty(
+        name="Texture Size Limit",
+        description=""" \
+The maximum size of the textures \n\n \
+256 - 256x256 \n\n \
+512 - 512x512 \n\n \
+1024 - 1024x1024 (default) \n\n \
+""",
+        items=[
+            ("256", "256", "256x256"),
+            ("512", "512", "512x512"),
+            ("1024", "1024", "1024x1024")
+        ],
+        default="1024"
     )
