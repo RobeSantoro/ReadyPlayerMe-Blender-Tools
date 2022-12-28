@@ -21,7 +21,7 @@ Set the options for the avatar and click the Download button.
 
 - [x] Add support for downloading the avatar as a single .glb file
 - [x] Add `?quality=`
-- [ ] Add `?meshLod=`
+- [x] Add `?meshLod=`
 - [ ] Add `?textureSizeLimit=`
 - [ ] Add `?textureAtlas=`
 - [ ] Add `?textureChannels=`
