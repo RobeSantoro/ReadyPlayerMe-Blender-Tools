@@ -2,6 +2,8 @@
 
 This is a collection of tools for Blender to help with the management of 3D Avatar by Ready Player Me.
 
+![Ready Player Me - Blender Tools - Screenshot](screenshot.jpg)
+
 ## Installation
 
 1. Download the repo as a zip file
