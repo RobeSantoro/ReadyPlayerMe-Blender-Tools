@@ -251,35 +251,35 @@ Enter the morph targets you want to include separated by a comma.\n\n\
     baseColor: bpy.props.BoolProperty(
         name="baseColor",
         description="Include Base Color Texture",
-        default=True,
+        default=False,
         update=update_texture_to_any
     )
 
     normal: bpy.props.BoolProperty(
         name="normal",
         description="Include Normal Texture",
-        default=True,
+        default=False,
         update=update_texture_to_any
     )
 
     metallicRoughness: bpy.props.BoolProperty(
         name="metallicRoughness",
         description="Include Metallic Roughness Texture",
-        default=True,
+        default=False,
         update=update_texture_to_any
     )
 
     emissive: bpy.props.BoolProperty(
         name="emissive",
         description="Include Emissive Texture",
-        default=True,
+        default=False,
         update=update_texture_to_any
     )
 
     occlusion: bpy.props.BoolProperty(
         name="occlusion",
         description="Include Occlusion Texture",
-        default=True,
+        default=False,
         update=update_texture_to_any
     )
 

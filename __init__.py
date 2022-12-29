@@ -18,7 +18,7 @@ from . RPM_GetMorphs import RPM_OT_Get_Morphs
 from . RPM_Globals import RPM_MorphTarget
 from . RPM_Globals import RPM_Globals
 
-from . RPM_request import RPM_OT_Request
+from . RPM_Request import RPM_OT_Request
 
 from . RPM_ui import RPM_PT_MenuMain
 from . RPM_ui import RPM_PT_MenuUrlParams

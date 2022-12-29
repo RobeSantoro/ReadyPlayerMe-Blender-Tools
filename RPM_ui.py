@@ -113,6 +113,7 @@ class RPM_PT_MenuTextureSettings(bpy.types.Panel, ReadyPlayerMePanel):
 
     bl_label = "Texture Settings"
     bl_parent_id = "RPM_PT_MenuUrlParams"
+    bl_options = {'DEFAULT_CLOSED'}
 
     @classmethod
     def poll(cls, context):

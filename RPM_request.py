@@ -97,6 +97,8 @@ class RPM_OT_Request(bpy.types.Operator):
         # + or any morph targets, separated with comma
         # The default value is "Default,ARKit,Oculus Visemes"
 
+        textureChannels = []
+
         if quality != "not_set":
             url_params_list.append(f"quality={quality}")
 
@@ -125,6 +127,20 @@ class RPM_OT_Request(bpy.types.Operator):
             else:
                 url_params_list.append(f"morphTargets={morphTargets}")
 
+        if context.scene.RPM.baseColor:
+            textureChannels.append("baseColor")
+        if context.scene.RPM.normal:
+            textureChannels.append("normal")
+        if context.scene.RPM.metallicRoughness:
+            textureChannels.append("metallicRoughness")
+        if context.scene.RPM.emissive:
+            textureChannels.append("emissive")
+        if context.scene.RPM.occlusion:
+            textureChannels.append("occlusion")
+        if context.scene.RPM.none:
+            textureChannels = []
+            textureChannels.append("none")
+
         url_params_string = "&".join(url_params_list)
 
         url = url_id + "?" + url_params_string
@@ -142,6 +158,8 @@ class RPM_OT_Request(bpy.types.Operator):
         print(f'textureSizeLimit: {textureSizeLimit}')
         print(f'textureAtlas: {textureAtlas}')
         print(f'morphTargets: {morphTargets}')
+        print()
+        print(f'textureChannels: {textureChannels}')
         print()
 
         # response = requests.get(url)
