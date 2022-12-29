@@ -289,3 +289,17 @@ Enter the morph targets you want to include separated by a comma.\n\n\
         default=False,
         update=update_texture_to_none
     )
+
+    pose: bpy.props.EnumProperty(
+        name="pose",
+        description="""\
+The pose to use for the avatar \n\n\
+a-pose - Use the A-Pose (default)\n\n\
+t-pose - Use the T-Pose  \n\n\
+""",
+        items=[
+            ("a-pose", "A-Pose", "Use the A-Pose"),
+            ("t-pose", "T-Pose", "Use the T-Pose")
+        ],
+        default="a-pose"
+    )
