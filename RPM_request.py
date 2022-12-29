@@ -12,7 +12,6 @@ def rename_armature(context, url_params_list):
 
         postfix = []
 
-        # ?quality=low (meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none)
         if 'quality=low' in url_params_list:
             postfix.append('Low')
         elif 'quality=medium' in url_params_list:
@@ -42,6 +41,9 @@ def rename_armature(context, url_params_list):
             postfix.append('atlas1024')
 
         context.object.name = context.scene.RPM.avatar_name + '_' + '_'.join(postfix)
+
+    elif len(url_params_list) == 0:
+        context.object.name = context.scene.RPM.avatar_name
 
 
 class RPM_OT_Request(bpy.types.Operator):
@@ -87,17 +89,28 @@ class RPM_OT_Request(bpy.types.Operator):
         # ?textureAtlas=512
         # ?textureAtlas=1024
 
+        morphTargets = context.scene.RPM.morphTargets
+        # ?morphTargets=none
+        # ?morphTargets=default
+        # ?morphTargets=ARKit
+        # ?morphTargets=Oculus Visemes
+        # + or any morph targets, separated with comma
+        # The default value is "Default,ARKit,Oculus Visemes"
+
         if quality != "not_set":
             url_params_list.append(f"quality={quality}")
 
         if meshLod != 0 or len(url_params_list) > 0:
             url_params_list.append(f"meshLod={meshLod}")
 
-        if textureSizeLimit != 1024 or len(url_params_list) > 0:
+        if textureSizeLimit != '1024' or len(url_params_list) > 0:
             url_params_list.append(f"textureSizeLimit={textureSizeLimit}")
 
         if textureAtlas != "none" or len(url_params_list) > 0:
             url_params_list.append(f"textureAtlas={textureAtlas}")
+
+        if morphTargets != "all":
+            url_params_list.append(f"morphTargets={morphTargets}")
 
         url_params_string = "&".join(url_params_list)
 
@@ -115,6 +128,7 @@ class RPM_OT_Request(bpy.types.Operator):
         print(f'meshLod: {meshLod}')
         print(f'textureSizeLimit: {textureSizeLimit}')
         print(f'textureAtlas: {textureAtlas}')
+        print(f'morphTargets: {morphTargets}')
         print()
 
         response = requests.get(url)

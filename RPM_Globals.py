@@ -1,13 +1,13 @@
 import bpy
 
 
-class RPM_MorphTarget(bpy.types.Collection):
+class RPM_MorphTarget(bpy.types.PropertyGroup):
     """Collection of Morph Targets"""
-    name: bpy.props.StringProperty(name="Morph Target Name")
-    value: bpy.props.BoolProperty(name="Morph Target Value")
+    value: bpy.props.BoolProperty(name="Value")
 
 
 class RPM_Globals(bpy.types.PropertyGroup):
+
     avatar_name: bpy.props.StringProperty(
         name="Avatar Name",
         description="The name of the avatar for the object name",
@@ -97,7 +97,7 @@ none - Do not create a texture atlas (default) \n\n \
 1024 - Create a texture atlas of 1024x1024px \n\n \
 """,
         items=[
-            ("none", "None", "Do not create a texture atlas"),
+            ("none", "none", "Do not create a texture atlas"),
             ("256", "256", "Create a texture atlas of 256x256px"),
             ("512", "512", "Create a texture atlas of 512x512px"),
             ("1024", "1024", "Create a texture atlas of 1024x1024px"),
@@ -110,17 +110,25 @@ none - Do not create a texture atlas (default) \n\n \
         description=""" \
 The morph targets to include: \n\n \
 none - Do not include any morph targets \n\n \
-default - Include all morph targets (default) \n\n \
+all - Include all morph targets (default) \n\n \
+default - Include Default targets \n\n \
 ARKit - Blend shapes compatible with Apple ARKit (52) \n\n \
 Oculus Visemes - Visemes compatible with Oculus LipSync SDK (15) \n\n \
 Custom - Include custom morph targets from RPM_MorphTarget Collection\n\n \
 """,
         items=[
             ("none", "None", "Do not include any morph targets"),
-            ("default", "Default", "Include all morph targets"),
+            ("all", "All", "Include all morph targets"),
+            ("Default", "Default", "Include Default targets"),
             ("ARKit", "ARKit", "Blend shapes compatible with Apple ARKit (52)"),
             ("Oculus Visemes", "Oculus Visemes", "Visemes compatible with Oculus LipSync SDK (15)"),
-            ("Custom", "Custom", "Include custom morph targets from from RPM_MorphTarget Collection")
+            ("custom", "Custom", "Include custom morph targets from from RPM_MorphTarget Collection"),
         ],
-        default="default"
+        default="all"
+    )
+
+    customMorphTargets: bpy.props.CollectionProperty(
+        type=RPM_MorphTarget,
+        name="Custom Morph Targets",
+        description="Custom Morph Targets"
     )

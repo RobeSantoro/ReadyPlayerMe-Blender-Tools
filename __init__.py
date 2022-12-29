@@ -13,11 +13,13 @@
 
 import bpy
 
-from . RPM_Globals import RPM_Globals
 from . RPM_Globals import RPM_MorphTarget
+from . RPM_Globals import RPM_Globals
 
 from . RPM_request import RPM_OT_Request
 from . RPM_ui import RPM_PT_main
+
+from . RPM_GetMorphs import RPM_OT_Get_Morphs
 
 bl_info = {
     "name": "Ready Player Me Tools",
@@ -31,16 +33,18 @@ bl_info = {
 }
 
 classes = (
+    RPM_MorphTarget,
     RPM_Globals,
-
     RPM_OT_Request,
-    RPM_PT_main
+    RPM_PT_main,
+    RPM_OT_Get_Morphs
 )
 
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
+
     bpy.types.Scene.RPM = bpy.props.PointerProperty(type=RPM_Globals)
 
 

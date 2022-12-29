@@ -37,7 +37,7 @@ class RPM_PT_main(bpy.types.Panel):
         col2 = layout.column(align=True)
         col2.use_property_split = False
 
-        col2.prop(context.scene.RPM, "quality", text="Quality")
+        col2.prop(context.scene.RPM, "quality", text="Quality", expand=False)
         col2.scale_y = 1.3
 
         box = layout.box()
@@ -49,7 +49,12 @@ class RPM_PT_main(bpy.types.Panel):
         box.prop(context.scene.RPM, "meshLod", text="LOD")
         box.prop(context.scene.RPM, "textureSizeLimit", text="Tex Limit")
         box.prop(context.scene.RPM, "textureAtlas", text="Atlas")
-        box.prop(context.scene.RPM, "morphTargets", text="Morphs")
+
+        row = box.row(align=True)
+        row.prop(context.scene.RPM, "morphTargets", text="Morphs")
+        row.operator("rpm.get_morphs", text="", icon="IMPORT")
+
+        box.prop(context.scene.RPM, "customMorphTargets", text="Custom Morphs")
 
         col3 = layout.column(align=True)
         col3.scale_y = 1.3
