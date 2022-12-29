@@ -32,7 +32,7 @@ bl_info = {
     "author": "Robe Santoro",
     "description": "",
     "blender": (3, 3, 0),
-    "version": (0, 0, 1),
+    "version": (1, 0, 0),
     "location": "View3D > UI > Ready Player Me",
     "warning": "",
     "category": "Ready Player Me"
