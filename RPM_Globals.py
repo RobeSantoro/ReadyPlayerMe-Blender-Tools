@@ -3,7 +3,7 @@ import bpy
 
 def update_quality_settings(self, context):
 
-    if self.quality == "not-set":
+    if self.quality == "not_set":
         self.meshLod = 0
         self.textureSizeLimit = "1024"
         self.textureAtlas = "none"
@@ -210,7 +210,7 @@ Custom - Include custom morph targets from RPM_MorphTarget Collection\n\n \
 """,
         items=[
             ("none", "None", "Do not include any morph targets"),
-            ("all", "All (default)", "Include all morph targets"),
+            ("all", "All", "Include all morph targets"),
             ("Default", "Standard", "Include Standard targets"),
             ("ARKit", "ARKit", "Blend shapes compatible with Apple ARKit (52)"),
             ("Oculus Visemes", "Oculus Visemes", "Visemes compatible with Oculus LipSync SDK (15)"),
