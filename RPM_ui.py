@@ -177,5 +177,6 @@ class RPM_PT_MenuDownload(bpy.types.Panel, ReadyPlayerMePanel):
         col3 = layout.column(align=True)
         col3.scale_y = 1.3
 
-        col3.prop(context.scene.RPM, "avatar_name")
+        col3.prop(context.scene.RPM, "useDracoMeshCompression", text="Draco Compression", expand=False)
+        col3.prop(context.scene.RPM, "avatar_name", text="Avatar Name")
         col3.operator("rpm.make_request", text="Download Avatar", icon="IMPORT")

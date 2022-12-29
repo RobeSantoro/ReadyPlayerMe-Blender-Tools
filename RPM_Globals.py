@@ -303,3 +303,9 @@ t-pose - Use the T-Pose  \n\n\
         ],
         default="A"
     )
+
+    useDracoMeshCompression: bpy.props.BoolProperty(
+        name="useDracoMeshCompression",
+        description="Use Draco Mesh Compression",
+        default=False
+    )
