@@ -10,6 +10,18 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
     @classmethod
     def get_morph_targets(self, context):
 
+        print()
+        print('--------------------------------------------')
+        if context.scene.RPM.morphTargets != 'none':
+            print()
+            print(f'Getting seletcted morph targets: "{context.scene.RPM.morphTargets}"')
+        else:
+            context.scene.RPM.customMorphTargets.clear()
+            print(f'No morph targets selected')
+            print('--------------------------------------------')
+            return
+        print()
+
         viseme_list = ['viseme_sil', 'viseme_PP', 'viseme_FF', 'viseme_TH', 'viseme_DD', 'viseme_kk', 'viseme_CH',
                        'viseme_SS', 'viseme_nn', 'viseme_RR', 'viseme_aa', 'viseme_E', 'viseme_I', 'viseme_O', 'viseme_U']
 
@@ -21,6 +33,7 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
         morph_list = viseme_list + ARKit_list + additional_blendshape_list
 
         if context.scene.RPM.morphTargets == 'all':
+            print(f'Selecting All (default) morph targets: {len(morph_list)}\n')
             context.scene.RPM.customMorphTargets.clear()
             for morph_target in morph_list:
                 item = context.scene.RPM.customMorphTargets.add()
@@ -28,7 +41,18 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
                 item.value = True
                 print(item.name)
 
+        elif context.scene.RPM.morphTargets == 'Default':
+            print(f'Selecting Default morph targets: {len(additional_blendshape_list)}\n')
+            context.scene.RPM.customMorphTargets.clear()
+            for morph_target in morph_list:
+                if morph_target in additional_blendshape_list:
+                    item = context.scene.RPM.customMorphTargets.add()
+                    item.name = morph_target
+                    item.value = True
+                    print(item.name)
+
         elif context.scene.RPM.morphTargets == 'ARKit':
+            print(f'Selecting ARKit morph targets: {len(ARKit_list)}\n')
             context.scene.RPM.customMorphTargets.clear()
             for morph_target in morph_list:
                 if morph_target in ARKit_list:
@@ -38,6 +62,7 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
                     print(item.name)
 
         elif context.scene.RPM.morphTargets == 'Oculus Visemes':
+            print(f'Selecting Oculus Visemes morph targets: {len(viseme_list)}\n')
             context.scene.RPM.customMorphTargets.clear()
             for morph_target in morph_list:
                 if morph_target in viseme_list:
@@ -46,11 +71,11 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
                     item.value = True
                     print(item.name)
 
-        elif context.scene.RPM.morphTargets == 'none':
-            context.scene.RPM.customMorphTargets.clear()
-
         elif context.scene.RPM.morphTargets == 'custom':
             context.scene.RPM.customMorphTargets.clear()
+
+        print()
+        print('--------------------------------------------')
 
         return None
 

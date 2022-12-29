@@ -118,8 +118,8 @@ Custom - Include custom morph targets from RPM_MorphTarget Collection\n\n \
 """,
         items=[
             ("none", "None", "Do not include any morph targets"),
-            ("all", "All", "Include all morph targets"),
-            ("Default", "Default", "Include Default targets"),
+            ("all", "All (default)", "Include all morph targets"),
+            ("Default", "Standard", "Include Standard targets"),
             ("ARKit", "ARKit", "Blend shapes compatible with Apple ARKit (52)"),
             ("Oculus Visemes", "Oculus Visemes", "Visemes compatible with Oculus LipSync SDK (15)"),
             ("custom", "Custom", "Include custom morph targets from from RPM_MorphTarget Collection"),
@@ -131,4 +131,14 @@ Custom - Include custom morph targets from RPM_MorphTarget Collection\n\n \
         type=RPM_MorphTarget,
         name="Custom Morph Targets",
         description="Custom Morph Targets"
+    )
+
+    customMorphTargetsTextArea: bpy.props.StringProperty(
+
+        name="Custom Morph Targets Text Area",
+        description="""\
+Custom Morph Targets Text Area\n\
+Enter the morph targets you want to include separated by a comma.\n\
+""",
+        default="mouthOpen,mouthSmile,eyesClosed,eyesLookUp,eyesLookDown"
     )

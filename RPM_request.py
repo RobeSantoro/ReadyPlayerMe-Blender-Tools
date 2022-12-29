@@ -4,7 +4,7 @@ import requests
 
 def rename_armature(context, url_params_list):
 
-    if len(url_params_list) > 0:
+    if len(url_params_list) > 1:
 
         print()
         print(url_params_list)
@@ -42,7 +42,7 @@ def rename_armature(context, url_params_list):
 
         context.object.name = context.scene.RPM.avatar_name + '_' + '_'.join(postfix)
 
-    elif len(url_params_list) == 0:
+    elif len(url_params_list) <= 1:
         context.object.name = context.scene.RPM.avatar_name
 
 
@@ -116,7 +116,7 @@ class RPM_OT_Request(bpy.types.Operator):
 
         url = url_id + "?" + url_params_string
 
-        print('-------------------------------------------------------------')
+        print('--------------------------------------------')
         print()
         print(f'Making request to Ready Player Me API')
         print()
