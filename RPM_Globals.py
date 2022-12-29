@@ -63,6 +63,14 @@ def update_quality_settings(self, context):
         print(f'morphTargets: {self.morphTargets}')
         print('--------------------------------------------')
 
+    return None
+
+
+def update_morph_settings(self, context):
+    if self.morphTargets != "custom":
+        self.custom_morph_targets_enable_ARKit = False
+        self.custom_morph_targets_enable_Oculus_Visemes = False
+
 
 class RPM_MorphTarget(bpy.types.PropertyGroup):
     """Collection of Morph Targets"""
@@ -72,12 +80,12 @@ class RPM_MorphTarget(bpy.types.PropertyGroup):
 class RPM_Globals(bpy.types.PropertyGroup):
 
     avatar_name: bpy.props.StringProperty(
-        name="Avatar Name",
+        name="avatar_name",
         description="The name of the avatar for the object name",
         default="Robe")
 
     avatar_id_type: bpy.props.EnumProperty(
-        name="Avatar ID Type",
+        name="avatar_id_type",
         description="""\
 The type of the avatar ID you want to use: \n\n \
 shortcode:  The avatar shortcode (default) \n\n \
@@ -91,17 +99,17 @@ url:        The avatar ID in the URL \n\n \
     )
 
     avatar_shortcode: bpy.props.StringProperty(
-        name="Avatar Shortcode",
+        name="avatar_shortcode",
         description="The shortcode of the avatar you want to use",
         default="QKCJNP")
 
     avatar_id: bpy.props.StringProperty(
-        name="Avatar ID",
+        name="avatar_id",
         description="The ID of the avatar you want to use",
         default="63ac69548d4fc7b44d50de62")
 
     quality: bpy.props.EnumProperty(
-        name="Quality",
+        name="quality",
         description="""\
 The quality of the avatar you want to use: \n\n \
 not_set: The avatar will be downloaded without any optimization preset. (default)  \n\n \
@@ -123,7 +131,7 @@ You can use quality=low and overwrite the LOD with 0 to get the high-res avatar.
     )
 
     meshLod: bpy.props.IntProperty(
-        name="Mesh LOD",
+        name="meshLod",
         description=""" \
 The level of detail of the mesh \n\n \
 0 - No triangle count reduction is applied (default). \n\n \
@@ -136,7 +144,7 @@ The level of detail of the mesh \n\n \
     )
 
     textureSizeLimit: bpy.props.EnumProperty(
-        name="Texture Size Limit",
+        name="textureSizeLimit",
         description=""" \
 The maximum size of the textures \n\n \
 256 - 256x256 \n\n \
@@ -152,7 +160,7 @@ The maximum size of the textures \n\n \
     )
 
     textureAtlas: bpy.props.EnumProperty(
-        name="Texture Atlas",
+        name="textureAtlas",
         description=""" \
 The size of the texture atlas \n\n \
 none - Do not create a texture atlas (default) \n\n \
@@ -170,7 +178,7 @@ none - Do not create a texture atlas (default) \n\n \
     )
 
     morphTargets: bpy.props.EnumProperty(
-        name="Morph Targets",
+        name="morphTargets",
         description=""" \
 The morph targets to include: \n\n \
 none - Do not include any morph targets \n\n \
@@ -188,21 +196,34 @@ Custom - Include custom morph targets from RPM_MorphTarget Collection\n\n \
             ("Oculus Visemes", "Oculus Visemes", "Visemes compatible with Oculus LipSync SDK (15)"),
             ("custom", "Custom", "Include custom morph targets from from RPM_MorphTarget Collection"),
         ],
-        default="all"
+        default="all",
+        update=update_morph_settings
     )
 
-    customMorphTargets: bpy.props.CollectionProperty(
+    custom_morph_targets: bpy.props.CollectionProperty(
         type=RPM_MorphTarget,
-        name="Custom Morph Targets",
+        name="custom_morph_targets",
         description="Custom Morph Targets"
     )
 
-    customMorphTargetsTextArea: bpy.props.StringProperty(
+    custom_morph_targets_textarea: bpy.props.StringProperty(
 
-        name="Custom Morph Targets Text Area",
+        name="custom_morph_targets_textarea",
         description="""\
-Custom Morph Targets Text Area\n\
-Enter the morph targets you want to include separated by a comma.\n\
+Custom Morph Targets Text Area\n\n\
+Enter the morph targets you want to include separated by a comma.\n\n\
 """,
         default="mouthOpen,mouthSmile,eyesClosed,eyesLookUp,eyesLookDown"
+    )
+
+    custom_morph_targets_enable_ARKit: bpy.props.BoolProperty(
+        name="custom_morph_targets_enable_ARKit",
+        description="Enable ARKit Morph Targets",
+        default=False
+    )
+
+    custom_morph_targets_enable_Oculus_Visemes: bpy.props.BoolProperty(
+        name="custom_morph_targets_enable_Oculus_Visemes",
+        description="Enable Oculus Visemes Morph Targets",
+        default=False
     )

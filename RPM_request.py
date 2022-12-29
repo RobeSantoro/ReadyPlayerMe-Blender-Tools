@@ -110,7 +110,20 @@ class RPM_OT_Request(bpy.types.Operator):
             url_params_list.append(f"textureAtlas={textureAtlas}")
 
         if morphTargets != "all":
-            url_params_list.append(f"morphTargets={morphTargets}")
+
+            if morphTargets == "custom":
+                morphTargets = context.scene.RPM.custom_morph_targets_textarea
+
+                if context.scene.RPM.custom_morph_targets_enable_ARKit:
+                    morphTargets += ",ARKit"
+
+                if context.scene.RPM.custom_morph_targets_enable_Oculus_Visemes:
+                    morphTargets += ",Oculus Visemes"
+
+                url_params_list.append(f"morphTargets={morphTargets}")
+
+            else:
+                url_params_list.append(f"morphTargets={morphTargets}")
 
         url_params_string = "&".join(url_params_list)
 
@@ -131,25 +144,25 @@ class RPM_OT_Request(bpy.types.Operator):
         print(f'morphTargets: {morphTargets}')
         print()
 
-        response = requests.get(url)
+        # response = requests.get(url)
 
-        if response.status_code == 200:
-            self.report({"INFO"}, "Avatar downloaded successfully")
+        # if response.status_code == 200:
+        #     self.report({"INFO"}, "Avatar downloaded successfully")
 
-            # Save the file
-            with open("avatar.glb", "wb") as f:
-                f.write(response.content)
+        #     # Save the file
+        #     with open("avatar.glb", "wb") as f:
+        #         f.write(response.content)
 
-            # Import the file as glTF
-            bpy.ops.import_scene.gltf(filepath="avatar.glb")
+        #     # Import the file as glTF
+        #     bpy.ops.import_scene.gltf(filepath="avatar.glb")
 
-            # Rename the armature by adding the params if any
-            rename_armature(context, url_params_list)
+        #     # Rename the armature by adding the params if any
+        #     rename_armature(context, url_params_list)
 
-        elif response.status_code == 404:
-            self.report({"ERROR"}, "The requested avatar is not available")
+        # elif response.status_code == 404:
+        #     self.report({"ERROR"}, "The requested avatar is not available")
 
-        else:
-            self.report({"ERROR"}, "Avatar could not be downloaded")
+        # else:
+        #     self.report({"ERROR"}, "Avatar could not be downloaded")
 
         return {"FINISHED"}

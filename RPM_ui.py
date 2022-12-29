@@ -62,6 +62,10 @@ class RPM_PT_MenuQualitySettings(bpy.types.Panel, ReadyPlayerMePanel):
     bl_parent_id = "RPM_PT_MenuUrlParams"
     bl_options = {'DEFAULT_CLOSED'}
 
+    @classmethod
+    def poll(cls, context):
+        return context is not None
+
     def draw(self, context):
 
         layout = self.layout
@@ -78,17 +82,45 @@ class RPM_PT_MenuQualitySettings(bpy.types.Panel, ReadyPlayerMePanel):
         box.prop(context.scene.RPM, "textureSizeLimit", text="Tex Limit")
         box.prop(context.scene.RPM, "textureAtlas", text="Atlas")
 
-        row = box.row(align=True)
-        row.prop(context.scene.RPM, "morphTargets", text="Morph Targets")
-        row.operator("rpm.get_morphs", text="", icon="IMPORT")
+        row0 = box.row(align=True)
+        row0.prop(context.scene.RPM, "morphTargets", text="Morph Targets")
+        row0.operator("rpm.get_morphs", text="", icon="IMPORT")
 
-        box.prop(context.scene.RPM, "customMorphTargets", text="Morphs to apply")
+        if context.scene.RPM.morphTargets == "custom":
+
+            box.operator("wm.url_open", text="Check Supported Morphs",
+                         icon="WORLD").url = "https://docs.readyplayer.me/ready-player-me/avatars/avatar-creator/customization-and-configuration#list-of-supported-facial-animation-blend-shapes"
+
+            # box.label(text="Custom Targets List:")
+            row1 = box.row(align=True)
+            row1.prop(context.scene.RPM, "custom_morph_targets_textarea", text="")
+            row1.scale_y = 1.3
+
+            row2 = box.row(align=True, heading="Add Targets:")
+            row2.alignment = "EXPAND"
+            row2.use_property_split = True
+
+            row2.prop(context.scene.RPM, "custom_morph_targets_enable_ARKit", text="ARKit")
+            row2.prop(context.scene.RPM, "custom_morph_targets_enable_Oculus_Visemes", text="Oculus Visemes")
+
+        if context.scene.RPM.morphTargets != "all":
+            if context.scene.RPM.morphTargets != "none":
+                if context.scene.RPM.morphTargets != "custom":
+                    box.prop(context.scene.RPM, "custom_morph_targets", text="Morphs to apply")
+
+
+class RPM_PT_MenuDownload(bpy.types.Panel, ReadyPlayerMePanel):
+
+    bl_label = "Download Avatar"
+
+    def draw(self, context):
+
+        layout = self.layout
+        layout.use_property_split = True
+        layout.use_property_decorate = False
 
         col3 = layout.column(align=True)
         col3.scale_y = 1.3
-
-        col3.separator()
-        col3.separator()
 
         col3.prop(context.scene.RPM, "avatar_name")
         col3.operator("rpm.make_request", text="Download Avatar", icon="IMPORT")

@@ -16,7 +16,7 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
             print()
             print(f'Getting seletcted morph targets: "{context.scene.RPM.morphTargets}"')
         else:
-            context.scene.RPM.customMorphTargets.clear()
+            context.scene.RPM.custom_morph_targets.clear()
             print(f'No morph targets selected')
             print('--------------------------------------------')
             return
@@ -34,45 +34,45 @@ class RPM_OT_Get_Morphs(bpy.types.Operator):
 
         if context.scene.RPM.morphTargets == 'all':
             print(f'Selecting All (default) morph targets: {len(morph_list)}\n')
-            context.scene.RPM.customMorphTargets.clear()
+            context.scene.RPM.custom_morph_targets.clear()
             for morph_target in morph_list:
-                item = context.scene.RPM.customMorphTargets.add()
+                item = context.scene.RPM.custom_morph_targets.add()
                 item.name = morph_target
                 item.value = True
                 print(item.name)
 
         elif context.scene.RPM.morphTargets == 'Default':
             print(f'Selecting Default morph targets: {len(additional_blendshape_list)}\n')
-            context.scene.RPM.customMorphTargets.clear()
+            context.scene.RPM.custom_morph_targets.clear()
             for morph_target in morph_list:
                 if morph_target in additional_blendshape_list:
-                    item = context.scene.RPM.customMorphTargets.add()
+                    item = context.scene.RPM.custom_morph_targets.add()
                     item.name = morph_target
                     item.value = True
                     print(item.name)
 
         elif context.scene.RPM.morphTargets == 'ARKit':
             print(f'Selecting ARKit morph targets: {len(ARKit_list)}\n')
-            context.scene.RPM.customMorphTargets.clear()
+            context.scene.RPM.custom_morph_targets.clear()
             for morph_target in morph_list:
                 if morph_target in ARKit_list:
-                    item = context.scene.RPM.customMorphTargets.add()
+                    item = context.scene.RPM.custom_morph_targets.add()
                     item.name = morph_target
                     item.value = True
                     print(item.name)
 
         elif context.scene.RPM.morphTargets == 'Oculus Visemes':
             print(f'Selecting Oculus Visemes morph targets: {len(viseme_list)}\n')
-            context.scene.RPM.customMorphTargets.clear()
+            context.scene.RPM.custom_morph_targets.clear()
             for morph_target in morph_list:
                 if morph_target in viseme_list:
-                    item = context.scene.RPM.customMorphTargets.add()
+                    item = context.scene.RPM.custom_morph_targets.add()
                     item.name = morph_target
                     item.value = True
                     print(item.name)
 
         elif context.scene.RPM.morphTargets == 'custom':
-            context.scene.RPM.customMorphTargets.clear()
+            context.scene.RPM.custom_morph_targets.clear()
 
         print()
         print('--------------------------------------------')

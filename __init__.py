@@ -23,6 +23,7 @@ from . RPM_request import RPM_OT_Request
 from . RPM_ui import RPM_PT_MenuMain
 from . RPM_ui import RPM_PT_MenuUrlParams
 from . RPM_ui import RPM_PT_MenuQualitySettings
+from . RPM_ui import RPM_PT_MenuDownload
 
 bl_info = {
     "name": "Ready Player Me Tools",
@@ -40,9 +41,10 @@ classes = (
     RPM_MorphTarget,
     RPM_Globals,
     RPM_OT_Request,
+    RPM_PT_MenuMain,
     RPM_PT_MenuUrlParams,
     RPM_PT_MenuQualitySettings,
-    RPM_PT_MenuMain,
+    RPM_PT_MenuDownload,
 )
 
 
