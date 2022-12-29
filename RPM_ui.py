@@ -109,6 +109,35 @@ class RPM_PT_MenuQualitySettings(bpy.types.Panel, ReadyPlayerMePanel):
                     box.prop(context.scene.RPM, "custom_morph_targets", text="Morphs to apply")
 
 
+class RPM_PT_MenuTextureSettings(bpy.types.Panel, ReadyPlayerMePanel):
+
+    bl_label = "Texture Settings"
+    bl_parent_id = "RPM_PT_MenuUrlParams"
+
+    @classmethod
+    def poll(cls, context):
+        return context is not None
+
+    def draw(self, context):
+
+        layout = self.layout
+        layout.use_property_split = True
+        layout.use_property_decorate = False
+
+        box = layout.box()
+
+        box.use_property_split = True
+        box.use_property_decorate = False
+        box.scale_y = 1
+
+        box.prop(context.scene.RPM, "baseColor", text="Base Color")
+        box.prop(context.scene.RPM, "normal", text="Normal")
+        box.prop(context.scene.RPM, "metallicRoughness", text="Metallic/Roughness")
+        box.prop(context.scene.RPM, "emissive", text="Emissive")
+        box.prop(context.scene.RPM, "occlusion", text="Occlusion")
+        box.prop(context.scene.RPM, "none", text="None")
+
+
 class RPM_PT_MenuDownload(bpy.types.Panel, ReadyPlayerMePanel):
 
     bl_label = "Download Avatar"

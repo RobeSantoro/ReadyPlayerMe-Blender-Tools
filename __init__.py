@@ -24,6 +24,7 @@ from . RPM_ui import RPM_PT_MenuMain
 from . RPM_ui import RPM_PT_MenuUrlParams
 from . RPM_ui import RPM_PT_MenuQualitySettings
 from . RPM_ui import RPM_PT_MenuDownload
+from . RPM_ui import RPM_PT_MenuTextureSettings
 
 bl_info = {
     "name": "Ready Player Me Tools",
@@ -45,6 +46,7 @@ classes = (
     RPM_PT_MenuUrlParams,
     RPM_PT_MenuQualitySettings,
     RPM_PT_MenuDownload,
+    RPM_PT_MenuTextureSettings,
 )
 
 

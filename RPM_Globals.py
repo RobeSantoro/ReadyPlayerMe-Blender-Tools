@@ -72,6 +72,26 @@ def update_morph_settings(self, context):
         self.custom_morph_targets_enable_Oculus_Visemes = False
 
 
+def update_texture_to_none(self, context):
+
+    if self.none:
+        self.baseColor = False
+        self.normal = False
+        self.metallicRoughness = False
+        self.emissive = False
+        self.occlusion = False
+
+    return None
+
+
+def update_texture_to_any(self, context):
+
+    if self.baseColor or self.normal or self.metallicRoughness or self.emissive or self.occlusion:
+        self.none = False
+
+    return None
+
+
 class RPM_MorphTarget(bpy.types.PropertyGroup):
     """Collection of Morph Targets"""
     value: bpy.props.BoolProperty(name="Value")
@@ -226,4 +246,46 @@ Enter the morph targets you want to include separated by a comma.\n\n\
         name="custom_morph_targets_enable_Oculus_Visemes",
         description="Enable Oculus Visemes Morph Targets",
         default=False
+    )
+
+    baseColor: bpy.props.BoolProperty(
+        name="baseColor",
+        description="Include Base Color Texture",
+        default=True,
+        update=update_texture_to_any
+    )
+
+    normal: bpy.props.BoolProperty(
+        name="normal",
+        description="Include Normal Texture",
+        default=True,
+        update=update_texture_to_any
+    )
+
+    metallicRoughness: bpy.props.BoolProperty(
+        name="metallicRoughness",
+        description="Include Metallic Roughness Texture",
+        default=True,
+        update=update_texture_to_any
+    )
+
+    emissive: bpy.props.BoolProperty(
+        name="emissive",
+        description="Include Emissive Texture",
+        default=True,
+        update=update_texture_to_any
+    )
+
+    occlusion: bpy.props.BoolProperty(
+        name="occlusion",
+        description="Include Occlusion Texture",
+        default=True,
+        update=update_texture_to_any
+    )
+
+    none: bpy.props.BoolProperty(
+        name="none",
+        description="Do not include any textures",
+        default=False,
+        update=update_texture_to_none
     )
