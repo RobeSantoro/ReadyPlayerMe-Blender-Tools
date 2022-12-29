@@ -67,6 +67,7 @@ class RPM_OT_Request(bpy.types.Operator):
         url_id = f"https://api.readyplayer.me/v1/avatars/{avatar_id}.glb"
 
         url_params_list = []
+        url_params_string = ''
 
         quality = context.scene.RPM.quality
         # ?quality=low (meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none)
@@ -98,6 +99,7 @@ class RPM_OT_Request(bpy.types.Operator):
         # The default value is "Default,ARKit,Oculus Visemes"
 
         textureChannels = []
+        textureChannels_string = ''
 
         if quality != "not_set":
             url_params_list.append(f"quality={quality}")
@@ -141,15 +143,16 @@ class RPM_OT_Request(bpy.types.Operator):
             textureChannels = []
             textureChannels.append("none")
 
-        url_params_string = "&".join(url_params_list)
+        if len(textureChannels) > 0:
+            textureChannels_string = "textureChannels=" + ",".join(textureChannels)
 
-        url = url_id + "?" + url_params_string
+        url_params_string = "&".join(url_params_list) + f"{'&' if len(textureChannels_string) > 0 else '' }" + textureChannels_string
+
+        url = url_id + f"{'?' if len(url_params_string) > 0 else ''}{url_params_string}"
 
         print('--------------------------------------------')
         print()
         print(f'Making request to Ready Player Me API')
-        print()
-        print(url_params_string if len(url_params_string) != 0 else "No params")
         print()
         print(f'{url}')
         print()
@@ -159,28 +162,28 @@ class RPM_OT_Request(bpy.types.Operator):
         print(f'textureAtlas: {textureAtlas}')
         print(f'morphTargets: {morphTargets}')
         print()
-        print(f'textureChannels: {textureChannels}')
+        print(f'textureChannels: {textureChannels if len(textureChannels) > 0 else "All"}')
         print()
 
-        # response = requests.get(url)
+        response = requests.get(url)
 
-        # if response.status_code == 200:
-        #     self.report({"INFO"}, "Avatar downloaded successfully")
+        if response.status_code == 200:
+            self.report({"INFO"}, "Avatar downloaded successfully")
 
-        #     # Save the file
-        #     with open("avatar.glb", "wb") as f:
-        #         f.write(response.content)
+            # Save the file
+            with open("avatar.glb", "wb") as f:
+                f.write(response.content)
 
-        #     # Import the file as glTF
-        #     bpy.ops.import_scene.gltf(filepath="avatar.glb")
+            # Import the file as glTF
+            bpy.ops.import_scene.gltf(filepath="avatar.glb")
 
-        #     # Rename the armature by adding the params if any
-        #     rename_armature(context, url_params_list)
+            # Rename the armature by adding the params if any
+            rename_armature(context, url_params_list)
 
-        # elif response.status_code == 404:
-        #     self.report({"ERROR"}, "The requested avatar is not available")
+        elif response.status_code == 404:
+            self.report({"ERROR"}, "The requested avatar is not available")
 
-        # else:
-        #     self.report({"ERROR"}, "Avatar could not be downloaded")
+        else:
+            self.report({"ERROR"}, "Avatar could not be downloaded")
 
         return {"FINISHED"}
