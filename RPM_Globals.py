@@ -298,8 +298,8 @@ a-pose - Use the A-Pose (default)\n\n\
 t-pose - Use the T-Pose  \n\n\
 """,
         items=[
-            ("a-pose", "A-Pose", "Use the A-Pose"),
-            ("t-pose", "T-Pose", "Use the T-Pose")
+            ("A", "A-Pose", "Use the A-Pose"),
+            ("T", "T-Pose", "Use the T-Pose")
         ],
-        default="a-pose"
+        default="A"
     )
