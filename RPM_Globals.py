@@ -1,6 +1,69 @@
 import bpy
 
 
+def update_quality_settings(self, context):
+
+    if self.quality == "not-set":
+        self.meshLod = 0
+        self.textureSizeLimit = "1024"
+        self.textureAtlas = "none"
+        self.morphTargets = "all"
+
+        print()
+        print('--------------------------------------------')
+        print("Quality set to not-set")
+        print(f'meshLod: {self.meshLod}')
+        print(f'textureSizeLimit: {self.textureSizeLimit}')
+        print(f'textureAtlas: {self.textureAtlas}')
+        print(f'morphTargets: {self.morphTargets}')
+        print('--------------------------------------------')
+
+    elif self.quality == "low":
+        self.meshLod = 2
+        self.textureSizeLimit = "256"
+        self.textureAtlas = "256"
+        self.morphTargets = "none"
+
+        print()
+        print('--------------------------------------------')
+        print("Quality set to low")
+        print(f'meshLod: {self.meshLod}')
+        print(f'textureSizeLimit: {self.textureSizeLimit}')
+        print(f'textureAtlas: {self.textureAtlas}')
+        print(f'morphTargets: {self.morphTargets}')
+        print('--------------------------------------------')
+
+    elif self.quality == "medium":
+        self.meshLod = 1
+        self.textureSizeLimit = "512"
+        self.textureAtlas = "512"
+        self.morphTargets = "none"
+
+        print()
+        print('--------------------------------------------')
+        print("Quality set to medium")
+        print(f'meshLod: {self.meshLod}')
+        print(f'textureSizeLimit: {self.textureSizeLimit}')
+        print(f'textureAtlas: {self.textureAtlas}')
+        print(f'morphTargets: {self.morphTargets}')
+        print('--------------------------------------------')
+
+    elif self.quality == "high":
+        self.meshLod = 0
+        self.textureSizeLimit = "1024"
+        self.textureAtlas = "1024"
+        self.morphTargets = "none"
+
+        print()
+        print('--------------------------------------------')
+        print("Quality set to high")
+        print(f'meshLod: {self.meshLod}')
+        print(f'textureSizeLimit: {self.textureSizeLimit}')
+        print(f'textureAtlas: {self.textureAtlas}')
+        print(f'morphTargets: {self.morphTargets}')
+        print('--------------------------------------------')
+
+
 class RPM_MorphTarget(bpy.types.PropertyGroup):
     """Collection of Morph Targets"""
     value: bpy.props.BoolProperty(name="Value")
@@ -56,6 +119,7 @@ You can use quality=low and overwrite the LOD with 0 to get the high-res avatar.
             ("high", "High", "High quality")
         ],
         default="not_set",
+        update=update_quality_settings
     )
 
     meshLod: bpy.props.IntProperty(

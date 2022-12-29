@@ -13,14 +13,16 @@
 
 import bpy
 
+from . RPM_GetMorphs import RPM_OT_Get_Morphs
+
 from . RPM_Globals import RPM_MorphTarget
 from . RPM_Globals import RPM_Globals
 
 from . RPM_request import RPM_OT_Request
+
 from . RPM_ui import RPM_PT_MenuMain
 from . RPM_ui import RPM_PT_MenuUrlParams
-
-from . RPM_GetMorphs import RPM_OT_Get_Morphs
+from . RPM_ui import RPM_PT_MenuQualitySettings
 
 bl_info = {
     "name": "Ready Player Me Tools",
@@ -34,12 +36,13 @@ bl_info = {
 }
 
 classes = (
+    RPM_OT_Get_Morphs,
     RPM_MorphTarget,
     RPM_Globals,
     RPM_OT_Request,
-    RPM_PT_MenuMain,
     RPM_PT_MenuUrlParams,
-    RPM_OT_Get_Morphs
+    RPM_PT_MenuQualitySettings,
+    RPM_PT_MenuMain,
 )
 
 

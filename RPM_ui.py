@@ -28,7 +28,6 @@ class RPM_PT_MenuMain(bpy.types.Panel, ReadyPlayerMePanel):
 class RPM_PT_MenuUrlParams(bpy.types.Panel, ReadyPlayerMePanel):
 
     bl_label = "API Request"
-    bl_parent_id = "MR_PT_MenuMain"
 
     def draw(self, context):
 
@@ -55,6 +54,19 @@ class RPM_PT_MenuUrlParams(bpy.types.Panel, ReadyPlayerMePanel):
 
         col2.prop(context.scene.RPM, "quality", text="Quality", expand=False)
         col2.scale_y = 1.3
+
+
+class RPM_PT_MenuQualitySettings(bpy.types.Panel, ReadyPlayerMePanel):
+
+    bl_label = "Quality Settings"
+    bl_parent_id = "RPM_PT_MenuUrlParams"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+
+        layout = self.layout
+        layout.use_property_split = True
+        layout.use_property_decorate = False
 
         box = layout.box()
 
