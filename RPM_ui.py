@@ -84,7 +84,7 @@ class RPM_PT_MenuQualitySettings(bpy.types.Panel, ReadyPlayerMePanel):
 
         row0 = box.row(align=True)
         row0.prop(context.scene.RPM, "morphTargets", text="Morph Targets")
-        row0.operator("rpm.get_morphs", text="", icon="IMPORT")
+        row0.operator("rpm.get_morphs", text="", icon="QUESTION")
 
         if context.scene.RPM.morphTargets == "custom":
 
