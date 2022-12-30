@@ -151,6 +151,10 @@ class RPM_OT_Request(bpy.types.Operator):
         if context.scene.RPM.pose == "T":
             url_params_list.append("pose=T")
 
+        # ?useDracoMeshCompression
+        if context.scene.RPM.useDracoMeshCompression:
+            url_params_list.append("useDracoMeshCompression=true")
+
         url_params_string = "&".join(url_params_list) + f"{'&' if len(textureChannels_string) > 0 else '' }" + textureChannels_string
 
         url = url_id + f"{'?' if len(url_params_string) > 0 else ''}{url_params_string}"
