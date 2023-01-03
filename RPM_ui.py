@@ -84,7 +84,7 @@ class RPM_PT_MenuQualitySettings(bpy.types.Panel, ReadyPlayerMePanel):
 
         row0 = box.row(align=True)
         row0.prop(context.scene.RPM, "morphTargets", text="Morph Targets")
-        row0.operator("rpm.get_morphs", text="", icon="IMPORT")
+        row0.operator("rpm.get_morphs", text="", icon="QUESTION")
 
         if context.scene.RPM.morphTargets == "custom":
 
@@ -139,6 +139,31 @@ class RPM_PT_MenuTextureSettings(bpy.types.Panel, ReadyPlayerMePanel):
         box.prop(context.scene.RPM, "none", text="None")
 
 
+class RPM_PT_MenuPoseSettings(bpy.types.Panel, ReadyPlayerMePanel):
+
+    bl_label = "Pose Settings"
+    bl_parent_id = "RPM_PT_MenuUrlParams"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    @classmethod
+    def poll(cls, context):
+        return context is not None
+
+    def draw(self, context):
+
+        layout = self.layout
+        layout.use_property_split = True
+        layout.use_property_decorate = False
+
+        box = layout.box()
+
+        box.use_property_split = True
+        box.use_property_decorate = False
+        box.scale_y = 1
+
+        box.prop(context.scene.RPM, "pose", text="Pose")
+
+
 class RPM_PT_MenuDownload(bpy.types.Panel, ReadyPlayerMePanel):
 
     bl_label = "Download Avatar"
@@ -152,5 +177,6 @@ class RPM_PT_MenuDownload(bpy.types.Panel, ReadyPlayerMePanel):
         col3 = layout.column(align=True)
         col3.scale_y = 1.3
 
-        col3.prop(context.scene.RPM, "avatar_name")
+        col3.prop(context.scene.RPM, "useDracoMeshCompression", text="Draco Compression", expand=False)
+        col3.prop(context.scene.RPM, "avatar_name", text="Avatar Name")
         col3.operator("rpm.make_request", text="Download Avatar", icon="IMPORT")

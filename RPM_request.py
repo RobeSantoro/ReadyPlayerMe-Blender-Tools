@@ -67,6 +67,7 @@ class RPM_OT_Request(bpy.types.Operator):
         url_id = f"https://api.readyplayer.me/v1/avatars/{avatar_id}.glb"
 
         url_params_list = []
+        url_params_string = ''
 
         quality = context.scene.RPM.quality
         # ?quality=low (meshLod=2, textureSizeLimit=256, textureAtlas=256, morphTargets=none)
@@ -98,35 +99,38 @@ class RPM_OT_Request(bpy.types.Operator):
         # The default value is "Default,ARKit,Oculus Visemes"
 
         textureChannels = []
+        textureChannels_string = ''
+        # ?textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion,none (default)
 
+        # ?quality
         if quality != "not_set":
             url_params_list.append(f"quality={quality}")
 
+        # ?meshLod
         if meshLod != 0 or len(url_params_list) > 0:
             url_params_list.append(f"meshLod={meshLod}")
 
+        # ?textureSizeLimit
         if textureSizeLimit != '1024' or len(url_params_list) > 0:
             url_params_list.append(f"textureSizeLimit={textureSizeLimit}")
 
+        # ?textureAtlas
         if textureAtlas != "none" or len(url_params_list) > 0:
             url_params_list.append(f"textureAtlas={textureAtlas}")
 
+        # ?morphTargets
         if morphTargets != "all":
-
             if morphTargets == "custom":
                 morphTargets = context.scene.RPM.custom_morph_targets_textarea
-
                 if context.scene.RPM.custom_morph_targets_enable_ARKit:
                     morphTargets += ",ARKit"
-
                 if context.scene.RPM.custom_morph_targets_enable_Oculus_Visemes:
                     morphTargets += ",Oculus Visemes"
-
                 url_params_list.append(f"morphTargets={morphTargets}")
-
             else:
                 url_params_list.append(f"morphTargets={morphTargets}")
 
+        # ?textureChannels
         if context.scene.RPM.baseColor:
             textureChannels.append("baseColor")
         if context.scene.RPM.normal:
@@ -140,16 +144,24 @@ class RPM_OT_Request(bpy.types.Operator):
         if context.scene.RPM.none:
             textureChannels = []
             textureChannels.append("none")
+        if len(textureChannels) > 0:
+            textureChannels_string = "textureChannels=" + ",".join(textureChannels)
 
-        url_params_string = "&".join(url_params_list)
+        # ?pose
+        if context.scene.RPM.pose == "T":
+            url_params_list.append("pose=T")
 
-        url = url_id + "?" + url_params_string
+        # ?useDracoMeshCompression
+        if context.scene.RPM.useDracoMeshCompression:
+            url_params_list.append("useDracoMeshCompression=true")
+
+        url_params_string = "&".join(url_params_list) + f"{'&' if len(textureChannels_string) > 0 else '' }" + textureChannels_string
+
+        url = url_id + f"{'?' if len(url_params_string) > 0 else ''}{url_params_string}"
 
         print('--------------------------------------------')
         print()
         print(f'Making request to Ready Player Me API')
-        print()
-        print(url_params_string if len(url_params_string) != 0 else "No params")
         print()
         print(f'{url}')
         print()
@@ -159,7 +171,7 @@ class RPM_OT_Request(bpy.types.Operator):
         print(f'textureAtlas: {textureAtlas}')
         print(f'morphTargets: {morphTargets}')
         print()
-        print(f'textureChannels: {textureChannels}')
+        print(f'textureChannels: {textureChannels if len(textureChannels) > 0 else "All"}')
         print()
 
         response = requests.get(url)
