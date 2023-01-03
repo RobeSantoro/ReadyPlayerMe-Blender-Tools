@@ -162,25 +162,25 @@ class RPM_OT_Request(bpy.types.Operator):
         print(f'textureChannels: {textureChannels}')
         print()
 
-        # response = requests.get(url)
+        response = requests.get(url)
 
-        # if response.status_code == 200:
-        #     self.report({"INFO"}, "Avatar downloaded successfully")
+        if response.status_code == 200:
+            self.report({"INFO"}, "Avatar downloaded successfully")
 
-        #     # Save the file
-        #     with open("avatar.glb", "wb") as f:
-        #         f.write(response.content)
+            # Save the file
+            with open("avatar.glb", "wb") as f:
+                f.write(response.content)
 
-        #     # Import the file as glTF
-        #     bpy.ops.import_scene.gltf(filepath="avatar.glb")
+            # Import the file as glTF
+            bpy.ops.import_scene.gltf(filepath="avatar.glb")
 
-        #     # Rename the armature by adding the params if any
-        #     rename_armature(context, url_params_list)
+            # Rename the armature by adding the params if any
+            rename_armature(context, url_params_list)
 
-        # elif response.status_code == 404:
-        #     self.report({"ERROR"}, "The requested avatar is not available")
+        elif response.status_code == 404:
+            self.report({"ERROR"}, "The requested avatar is not available")
 
-        # else:
-        #     self.report({"ERROR"}, "Avatar could not be downloaded")
+        else:
+            self.report({"ERROR"}, "Avatar could not be downloaded")
 
         return {"FINISHED"}
