@@ -1,6 +1,6 @@
 # Ready Player Me - Blender Tools
 
-This is a collection of tools for Blender to help exploring the Ready Player Me API.
+This is a collection Blender tools for helping explore the Ready Player Me API.
 
 ![Ready Player Me - Blender Tools - Screenshot](screenshot.jpg)
 
@@ -18,7 +18,7 @@ This is a collection of tools for Blender to help exploring the Ready Player Me 
 
 ## Installation
 
-1. Download the repo as a zip file or from the [releases page](https://github.com/RobeSantoro/ReadyPlayerMe-Blender-Tools/releases/tag/v1.0.1)
+1. Download the repo as a zip file or from the [Releases page](https://github.com/RobeSantoro/ReadyPlayerMe-Blender-Tools/releases/tag/v1.0.1)
 2. Open Blender and go to Edit > Preferences > Add-ons
 3. Click Install and select the zip file
 
